@@ -1,0 +1,35 @@
+# Koyeb Deployment Configuration
+# This file tells Koyeb how to deploy your app
+
+name: payslip-system
+region: fra  # Frankfurt (EU) - choose 'nyc' for US
+
+env:
+  - key: NODE_ENV
+    value: production
+  - key: PORT
+    value: 3000
+  - key: MONGODB_URI
+    value: mongodb+srv://trail_db_user:ZFjmUOMVSdatCOsq@cluster0.h1pqrer.mongodb.net/?retryWrites=true&w=majority
+  - key: DB_NAME
+    value: payslip_system
+  - key: ADMIN_PASSWORD
+    value: admin123
+
+web:
+  - name: web
+    port: 3000
+    path: /
+    build:
+      type: nodejs
+      command: npm install
+    run:
+      command: node server.js
+    routes:
+      - path: /
+    health_check:
+      path: /health
+      interval: 30
+      timeout: 5
+      healthy_threshold: 1
+      unhealthy_threshold: 3
